@@ -48,7 +48,7 @@ Los datos que se utilizan para calcular lo prometedora que es cada acción son 3
 	Este campo contendrá la media de estos valores $v$, indicando cuán bueno ha sido en promedio
 	dicho movimiento.
  - $W(s, a)$: la suma de los valores de las posiciones a las que se ha llegado en las simulaciones
-	en las que se ha ejecutado la acción $ a $ desde el estado $ s $. Nos permitirá actualizar $Q(s, a)$ de
+	en las que se ha ejecutado la acción $a$ desde el estado $s$. Nos permitirá actualizar $Q(s, a)$ de
 	forma más sencilla, $Q(s, a) = \dfrac{W(s,a)}{N(s,a)}$.
 
 
