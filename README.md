@@ -1,6 +1,11 @@
-# Introduction-to-different-AI-models
-En este repositorio comparamos 3 tipos de algoritmos: 1) Redes neuronales , 2) Aprendizaje por refuerzo y 3) Árboles de Búsqueda de Monte Carlo. Para ello creamos un modelo para cada uno y los entrenamos para jugar al 3 en raya.
+# Introducción a diferentes modelos de IA
 
+En este repositorio comparamos 3 tipos de algoritmos: 
+ 1) Redes neuronales, 
+ 2) Aprendizaje por refuerzo
+ 3) Árboles de Búsqueda de Monte Carlo. 
+
+Para visualizar resultados, creamos un modelo de cada tipo y los entrenamos para jugar al 3 en raya.
 
 
 # Árboles de busqueda de Monte Carlo
@@ -67,7 +72,7 @@ llegue a un estado inexplorado. Cada simulación se divide a su vez en 4 etapas:
  - Evaluación: se evalúa el nuevo estado.
  - Actualización: se actualiza el MCTS incorporando la información obtenida en esta ejecución.
 
-<image src="/images/ejecucion.png" width="250" height="250">
+<image src="/images/mcts_fases.png" width="750" height="350">
 
 Realizaremos simulaciones hasta haber hecho un número suficiente, o hasta que consumamos el
 tiempo disponible. Una vez poblado, en la segunda fase, de elección, se escoge el movimiento más
