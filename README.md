@@ -10,9 +10,9 @@ Para visualizar resultados, creamos un modelo de cada tipo y los entrenamos para
 
 # Redes neuronales <a name=id1> </a>
 
-# Aprendizaje por refuerzo <a name=id2/>
+# Aprendizaje por refuerzo <a name=id2> </a>
 
-# Árboles de busqueda de Monte Carlo <a name=id3/>
+# Árboles de busqueda de Monte Carlo <a name=id3> </a>
 
 Los arboles de búsqueda de montecarlo, MCTS (Monte Carlo Tree Search), son una técnica de 
 búsqueda en el campo de la Inteligencia Artificial (IA), cuyo principal objetivo es maximizar 
