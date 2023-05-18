@@ -1,13 +1,14 @@
 # Introducción a diferentes modelos de IA
 
 En este repositorio comparamos 3 tipos de algoritmos: 
- 1) [Redes neuronales](#ANN)
+
+ 1) [Redes neuronales](#id1)
  2) [Aprendizaje por refuerzo](#RL)
  3) [Árboles de Búsqueda de Monte Carlo](#MCTS) 
 
 Para visualizar resultados, creamos un modelo de cada tipo y los entrenamos para jugar al 3 en raya.
 
-# Redes neuronales <a name=ANN> </a>
+# Redes neuronales <a name=id1> </a>
 
 # Aprendizaje por refuerzo <a name=RL />
 
