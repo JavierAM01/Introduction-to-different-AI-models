@@ -7,7 +7,7 @@ En este repositorio comparamos 3 tipos de algoritmos:
 
 Para visualizar resultados, creamos un modelo de cada tipo y los entrenamos para jugar al 3 en raya.
 
-# Redes neuronales <a name=ANN />
+# Redes neuronales <a name=ANN> </a>
 
 # Aprendizaje por refuerzo <a name=RL />
 
