@@ -10,7 +10,39 @@ Para visualizar resultados, creamos un modelo de cada tipo y los entrenamos para
 
 # Redes neuronales <a name=id1> </a>
 
+Una red neuronal es un modelo que emula el modo en que el cerebro humano procesa la información. 
+La estructura de la red neuronal está formada por pequeños procesadores de información, llamados neuronas 
+artificiales, basándose en el modelo de neuronas del cerebro humano desarrollado en sus inicios por Ramon y Cajal. 
+De forma breve las similitudes entre la neurona humana y la articial son las siguientes.
+
+
+|  Neurona Humana  |  Neurona Artificial  |
+|------------------|----------------------|
+| <image src="/images/neurona_humana.jpg" height="350"> | <image src="/images/neurona_artificial.png" height="350"> |
+| <p>1. Canal de entrada de información: las dendritas.</p> <p>2. Órgano de cómputo: el soma.</p> <p>3. Canal de salida: el axón.</p> | <p>1. Canal de entrada de información: pesos de la neurona, denotados como $\vec{w} = (w_0, w_1,\dots,w_n) \in \mathbb{R}^{n+1}$. La información de entrada es un vector $\vec{x} = (x_1,\dots,x_n) \in \mathbb{R}^{n}$.</p> <p>2. Órgano de cómputo: producto vectorial entre $\vec{w}$ y $\vec{x}$. Este resultado es procesado por una función de activación $f:\mathbb{R} \rightarrow \mathbb{R}$.</p> <p>3. Canal de salida: el resultado del computo es guardado en la variable $y$.</p> |
+
+La estructura de la red neuronal se divide en tres capas principales: la capa de entrada (input layer), una o 
+más capas intermedias (hidden layers) y la capa de salida (output layer). En esta estrutura, las funciones de 
+activación son una parte importante y se explicarán en la siguiente sección. Su elección depende principalmente de
+dos factores: su derivavilidad y su coste computacional.
+
+El entrenamiento de una red neuronal se centra en minimizar el error. Para ello, durante el proceso de aprendizaje 
+se recopilan un gran número de pares de datos, $(\vec{x},y)$, donde $\vec{x}\in\mathbb{R}^n$ representa 
+un dato de entrada e $y\in \mathbb{R}$ reprensenta su salida objetivo. Para cada par, se evalua $\vec{x}$ en la red 
+neuronal obteniéndose la salida $z\in\mathbb{R}$, de ahí la red modifica los pesos con objetivo de minimizar el error 
+entre la salida de la red, $z$ y la salida objetivo, $y$. 
+
 # Aprendizaje por refuerzo <a name=id2> </a>
+
+El objetivo del aprendizaje por refuerzo es extraer qué acciones deben ser elegidas en los diferentes 
+estados para maximizar la recompensa. En cierta forma, buscamos que el agente aprenda lo que se llama 
+una política, que formalmente podemos verla como una aplicación que dice en cada estado qué acción 
+tomar. Dividiremos la política del agente en dos componentes: por una parte, cómo de buena cree el 
+agente que es una acción sobre un estado determinado y, por otra, cómo usa el agente lo que sabe 
+para elegir una de las acciones posibles.
+
+<image src="/images/refuerzo.png" width="750" height="350">
+
 
 # Árboles de busqueda de Monte Carlo <a name=id3> </a>
 
