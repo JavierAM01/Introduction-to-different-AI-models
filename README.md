@@ -3,16 +3,16 @@
 En este repositorio comparamos 3 tipos de algoritmos: 
 
  1) [Redes neuronales](#id1)
- 2) [Aprendizaje por refuerzo](#RL)
- 3) [Árboles de Búsqueda de Monte Carlo](#MCTS) 
+ 2) [Aprendizaje por refuerzo](#id2)
+ 3) [Árboles de Búsqueda de Monte Carlo](#id3) 
 
 Para visualizar resultados, creamos un modelo de cada tipo y los entrenamos para jugar al 3 en raya.
 
 # Redes neuronales <a name=id1> </a>
 
-# Aprendizaje por refuerzo <a name=RL />
+# Aprendizaje por refuerzo <a name=id2/>
 
-# Árboles de busqueda de Monte Carlo <a name=MCTS />
+# Árboles de busqueda de Monte Carlo <a name=id3/>
 
 Los arboles de búsqueda de montecarlo, MCTS (Monte Carlo Tree Search), son una técnica de 
 búsqueda en el campo de la Inteligencia Artificial (IA), cuyo principal objetivo es maximizar 
