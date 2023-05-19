@@ -1,5 +1,0 @@
-Q learning
-1) https://towardsdatascience.com/an-ai-agent-learns-to-play-tic-tac-toe-part-3-training-a-q-learning-rl-agent-2871cef2faf0
-
-Tic Tac Toe:
-2) https://realpython.com/tic-tac-toe-python/
