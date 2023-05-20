@@ -91,6 +91,12 @@ Tras una serie de iteraciones obtenemos buenos resultados. Podemos ver la evoluc
 
 El modelo final en la práctica, pese a no realizar los movimientos óptimos siempre, evita perder en todas la ocasiones y además si no se efectuan los movientos correctos, también es capaz de ganar al oponente. Aquí podemos ver un par de ejemplos:
 
+| Jugada | Explicación |
+|--------|-------------|
+| <img src="images/RL/draw.gif" width="200" height="220"/> | **Empate:** la IA es el jugador "O". Podemos observar como siempre evita que el "X" gane. |
+| <img src="images/RL/winner.gif" width="200" height="220"/> | **Gana la IA:** la IA es el jugador "X". Podemos observar como la IA le deja sin movimientos al oponente y consigue ganarle. |
+
+
 
 ## Árboles de Búsqueda de Monte Carlo <a name=id4></a>
 
