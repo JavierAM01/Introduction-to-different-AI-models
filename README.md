@@ -2,18 +2,22 @@
 
 <img src="images/fondo_2.png" width="30%" align="right" />
 
-En este repositorio comparamos 3 tipos de algoritmos: 
+En este repositorio comparamos 4 tipos de algoritmos: 
 
  1) Algoritmo Minimax
  2) Redes neuronales
  3) Aprendizaje por refuerzo
  4) Árboles de Búsqueda de Monte Carlo 
 
-He creado un [PDF]() en el que explico una introducción de cada una de las 3 ramas mencionadas anteriormente.
+He creado un [PDF]() en el que explico una introducción a 3 de las ramas mencionadas anteriormente, dejando fuera el Algoritmo Minimax. Esto es debido a que me quiero centrar en algoritmos de aprendizaje máquina, y el minimax como tal no tiene un modelo que evolucione; sin embargo lo he introducido en el repositorio porque me ha parecido una buena introducción para los demás.
 
-Para visualizar resultados, creamos un modelo de cada tipo y los entrenamos para jugar al 3 en raya. Aquí proporciono un pequeña introducción a cada uno de los algoritmos y después explico el código que he desarrollado para cada uno, por lo que si ya se tiene una noción básica del algoritmo se puede pasar directamente a esta segunda parte.
+### Ejecución
 
-Para poder unificar todos estos modelos hemos creado una clase para cada uno con la función **move()** con el fin de que tengan todos la misma estructura. Así el usuario únicamente tienen que elegir contra qué modelo jugar y seguidamente se comenzará la partida.
+Para poder unificar todos estos modelos hemos creado una clase para cada uno con la función **move()** con el fin de que tengan todos la misma estructura. Así el usuario únicamente tienen que elegir contra qué modelo jugar y seguidamente se comenzará la partida. Para comenzar ejecutar:
+
+```python
+python3 main.py
+```
 
 #### Librerías necesarias
 
@@ -22,6 +26,8 @@ Para poder unificar todos estos modelos hemos creado una clase para cada uno con
  - pytorch: para la red neuronal.
 
 # Índice
+
+Aquí proporciono un pequeña introducción a cada uno de los algoritmos y después explico el código que he desarrollado para cada uno, por lo que si ya se tiene una noción básica del algoritmo se puede pasar directamente a esta segunda parte.
 
  1. [Algoritmo Minimax](#id1)
     - [Explicación del código](#id1.1)
@@ -47,6 +53,31 @@ El objetivo del algoritmo Minimax es determinar la mejor jugada para Jugador 1 (
 
 ### Explicación del código <a name=id1.1></a>
 
+*Observación: El código está desarrollado en la carpeta **Minimax/**. Finalmente, para poder jugar usaremos el objeto **Minimax_Model** del script **model.py**.* Para no tener que estar evaluando todo el rato el árbol de busqueda del algoritmo minimax, lo que hacemos en evaluar todos lo tableros posibles y guardar las acciones que hay que hacer en **rules.pkl**. Esto último es realizado en el script **create_model.py**.
+
+El algoritmo Minimax se basa en la exploración exhaustiva de todos los movimientos posibles. Comienza evaluando el estado actual del juego representado por el objeto game. Si el juego ha terminado, la función devuelve una tupla (X, nº de victorias, nº de derrotas) donde X puede ser 0 para empate, 1 para victoria o -1 para derrota.
+
+```python
+    if game.finished():
+        return (1, game.empty_spaces + 1, None)
+    if game.full():
+        return (0, 0, None)
+```
+
+Si el juego no ha terminado, la función itera sobre todas las posibles jugadas y realiza una llamada recursiva a sí misma para analizar los escenarios resultantes. Los resultados de las jugadas se registran en las listas x1 y x2, donde x1 almacena el resultado de cada jugada y x2 registra el número de victorias obtenidas para cada jugada.
+
+Finalmente, la función selecciona la mejor jugada basándose en los resultados obtenidos. Si hay una jugada que resulta en victoria, se selecciona esa jugada. En caso de empate, se elige la jugada con más victorias acumuladas.
+
+```python
+    i = np.argmax(x1)
+    if x1[i] < 1:
+        index = [j for j in range(9) if x1[j] == x1[i]]
+        j = np.argmax([x2[j] for j in index])
+        i_max = index[j]
+    else:
+        i_max = i
+```
+
 ## Redes neuronales <a name=id2></a>
 
 <img src="images/ann.png" width="500" align="right" />
@@ -59,7 +90,7 @@ El entrenamiento implica ajustar los pesos y sesgos del perceptrón utilizando e
 
 ### Explicación del código <a name=id2.1></a>
 
-*Observación: El código está desarrollado en la carpeta **ANN/** (Artificial Neural Network). Para el entrenamiento hemos usado el objeto **ANN_trainner** del script **model.py**. Finalmente, guardaremos el modelo resultante (la red neuronal) en la carpeta models (concretamente con la librería de pytorch) y para poder jugar usaremos el objeto **ANN_Model**.
+*Observación: El código está desarrollado en la carpeta **ANN/** (Artificial Neural Network). Para el entrenamiento hemos usado el objeto **ANN_trainner** del script **model.py**. Finalmente, guardaremos el modelo resultante (la red neuronal) en la carpeta models (concretamente con la librería de pytorch) y para poder jugar usaremos el objeto **ANN_Model**.*
 
 Para su entrenamiento, esta rebirá como entrada un vector de longitud 9 (las casillas del juego) mapeadas de la siguiente manera:
 
@@ -79,7 +110,7 @@ El algoritmo Q-learning es una técnica destacada en este campo. Busca aprender 
 
 ### Explicación del código <a name=id3.1></a>
 
-*Observación: El código está desarrollado en la carpeta **RL/** (Reinforcement Learning). Para el entrenamiento hemos usado el objeto **Q_trainner** del script **model.py**. Finalmente, guardaremos el modelo resultante (la tabla Q-table) en la carpeta models (concretamente con la librería pickle) y para poder jugar usaremos el objeto **RL_Model**.
+*Observación: El código está desarrollado en la carpeta **RL/** (Reinforcement Learning). Para el entrenamiento hemos usado el objeto **Q_trainner** del script **model.py**. Finalmente, guardaremos el modelo resultante (la tabla Q-table) en la carpeta models (concretamente con la librería pickle) y para poder jugar usaremos el objeto **RL_Model**.*
 
 Primero creamos la Q-table vacía, es decir, para cada una de las posibles combinaciones del juego, creamos una fila de 9 elemento en los que iremos modificando para conseguir el mejor movimiento en cada jugada. 
 
@@ -102,7 +133,7 @@ Tras una serie de iteraciones obtenemos buenos resultados. Podemos ver la evoluc
 El modelo final en la práctica, pese a no realizar los movimientos óptimos siempre, evita perder en todas la ocasiones y además si no se efectuan los movientos correctos, también es capaz de ganar al oponente. Podemos observar los resultados con unos ejemplos:
 
 
-| Jugada | Explicación |
+| Jugada | Comentarios |
 |--------|-------------|
 | <img src="images/RL/draw.gif" width="200" height="220"/> | **Empate:** la IA es el jugador "O". Podemos observar como siempre evita que el "X" gane. |
 | <img src="images/RL/winner.gif" width="200" height="220"/> | **Gana la IA:** la IA es el jugador "X". Podemos observar como la IA le deja sin movimientos al oponente y consigue ganarle. |
@@ -119,7 +150,7 @@ Durante la selección, se eligen nodos para la exploración y expansión, seguid
 
 ### Explicación del código <a name=id4.1></a>
 
-*Observación: El código está desarrollado en la carpeta **MCTS/** (Monte Carlo Tree Search). Para el entrenamiento hemos usado el objeto **MCTS_Model** del script **model.py**, aunque este se entrena directamente al crearse (el entrenamiento es muy corto, de unos pocos segundos). Finalmente, para poder jugar usaremos el objeto **MCTS_Model**.
+*Observación: El código está desarrollado en la carpeta **MCTS/** (Monte Carlo Tree Search). Para el entrenamiento hemos usado el objeto **MCTS_Model** del script **model.py**, aunque este se entrena directamente al crearse (el entrenamiento es muy corto, de unos pocos segundos). Finalmente, para poder jugar usaremos el objeto **MCTS_Model**.*
 
 Con respecto al poco entrenamiento necesario para este modelo, he de mencionar que en cada movimiento volvemos a realizar una pequeña busqueda (de segundos, pues se realiza en vivo mientras se juega). El hecho es que este modelo realmente es una modificación mejorada del minimax. Fue creado para espacios de busqueda de grandes dimensiones en los que no es viable realizar una busqueda completa con minimax. 
 
@@ -127,7 +158,7 @@ El beneficio del MCTS, es que debido al historial que guarda en cada uno de los 
 
 Podemos observar los resultados con unos ejemplos:
 
-| Jugada | Explicación |
+| Jugada | Comentarios |
 |--------|-------------|
 | <img src="images/MCTS/draw.gif" width="200" height="220"/> | **Empate:** la IA es el jugador "X". Podemos observar como siempre evita que el oponente gane. |
 | <img src="images/MCTS/winner.gif" width="200" height="220"/> | **Gana la IA:** la IA es el jugador "X". Podemos observar como la IA le deja sin movimientos al oponente y consigue ganarle. De hecho si se fijan detalladamente en la jugada, desde que el contrincante realiza su primer movimiento, el modelo le atrapa en una secuencia de movimiento en los que terminan con un 100% de victoria para la IA. |
