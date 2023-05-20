@@ -22,11 +22,11 @@ class App(tk.Tk):
 
     def chose_type_of_game(self):
         
-        print("\nChose a model:")
-        print(" 1) Minimax Model")
-        print(" 2) ANN Model")
-        print(" 3) RL Model")
-        print(" 4) MCTS Model (Not developed yet)")
+        print("\nChose your oponent:")
+        print(" 1) Minimax")
+        print(" 2) Artificial Neural Network")
+        print(" 3) Reinforcement Learning")
+        print(" 4) MCTS")
         option = input(" > ")
 
         mcts = False
