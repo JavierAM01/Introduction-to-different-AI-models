@@ -11,6 +11,12 @@ He creado un [PDF]() en el que explico una introducción de cada una de las 3 ra
 
 Para visualizar resultados, creamos un modelo de cada tipo y los entrenamos para jugar al 3 en raya. Aquí proporciono un pequeña introducción a cada uno de los algoritmos y después explico el código que he desarrollado para cada uno, por lo que si ya se tiene una noción básica del algoritmo se puede pasar directamente a esta segunda parte.
 
+#### Librerías necesarias
+
+ - numpy: para fórmulas matemáticas y números aleatorios.
+ - tkinter: para los gráficos del juego.
+ - pytorch: para la red neuronal.
+
 # Índice
 
  1. [Algoritmo Minimax](#id1)
