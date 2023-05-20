@@ -1,11 +1,13 @@
 import numpy as np
 
-class Game:
+class Game_Info:
 
     def __init__(self):
         self.board = np.zeros((3,3), dtype=np.int8)
         self.player = "x"
         self.empty_spaces = 9
+
+class Game(Game_Info):
 
     def reset(self):
         self.__init__()
@@ -20,6 +22,9 @@ class Game:
         if self.player == "x":
             return 1
         return -1
+    
+    def available_moves(self):
+        return [a for a in range(9) if self.valid(a)] 
 
     def valid(self, action):
         return self.board[action//3,action%3] == 0
