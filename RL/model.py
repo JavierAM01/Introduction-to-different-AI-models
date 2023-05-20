@@ -7,9 +7,9 @@ import os
 import matplotlib.pyplot as plt
 
 
-main_path = "RL\\models"
+main_path = "RL/models/"
 
-# # => Copy this code to train a model (desde el parent)
+# # => Copy this code to train a model (from parent)
 # from RL.model import Q_Trainner
 # name = "q_100k_e1.pkl"  # -> 100k = number of epochs, e1 = epision 0.1
 # trainner = Q_Trainner(epsilon=0.1)

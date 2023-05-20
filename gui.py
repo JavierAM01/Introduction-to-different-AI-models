@@ -12,18 +12,52 @@ from Perfect.model import Perfect_Model
 class App(tk.Tk):
 
     def __init__(self):
+
+        info = self.chose_type_of_game()
+
         super().__init__()
         self.title("Tic-Tac-Toe Game. By Javier Abollado.")
-        self.f1 = TicTacToeBoard(self)
+        self.f1 = TicTacToeBoard(self, info)
         self.f1.pack()
-        # self.f2 = TicTacToeBoard(self)
-        # self.f1.grid(row=0, column=0, padx=10)
-        # self.f2.grid(row=0, column=1, padx=10)
+
+    def chose_type_of_game(self):
+        
+        print("\nChose a model:")
+        print(" 1) RL Model")
+        print(" 2) ANN Model")
+        print(" 3) Perfect Model")
+        print(" 4) MCTS Model (Not developed yet)")
+        option = input(" > ")
+
+        if option == "1":
+            model  = RL_Model()
+        elif option == "2":
+            model  = ANN_Model("ANN/models/model_lr01_x20k_epochs100.pkl")
+        elif option == "3":
+            model  = Perfect_Model()
+        else:
+            model  = MCTS_Model()
+
+        print("\nStart player?")
+        print(" 1) AI Player")
+        print(" 2) Human")
+        option = input(" > ")
+
+        if option == "1":
+            start_player = "AI"
+            AI_chip = "x"
+        else:
+            start_player = "Human"
+            AI_chip = "o"
+
+        return model, start_player, AI_chip
 
 class TicTacToeBoard(tk.Frame):
 
-    def __init__(self, master):
+    def __init__(self, master, info):
         super().__init__(master=master)
+
+        self.model, self.start_player, self.AI_chip = info
 
         # init variables and create frames
         self._cells = {}
@@ -32,40 +66,9 @@ class TicTacToeBoard(tk.Frame):
 
         # create a parallel board & load the AI model
         self.game = Game()
-        self.chose_type_of_game()
 
-    def chose_type_of_game(self):
-        
-        print("Chose a model:")
-        print(" 1) RL Model")
-        print(" 2) ANN Model")
-        print(" 3) Perfect Model")
-        print(" 4) MCTS Model (Not developed yet)")
-        option = input(" > ")
-        print(option)
-
-        if option == "1":
-            self.model  = RL_Model()
-        elif option == "2":
-            self.model  = ANN_Model("ANN/models/model_lr01_x20k_epochs100.pkl")
-        elif option == "3":
-            self.model  = Perfect_Model()
-        else:
-            self.model  = MCTS_Model()
-
-        print("Start player?")
-        print(" 1) AI Player")
-        print(" 2) Human")
-        option = input(" > ")
-        print(option)
-
-        if option == "1":
-            self.start_player = "AI"
-            self.AI_chip = "x"
+        if self.start_player == "AI":
             self.playAI()
-        else:
-            self.start_player = "Human"
-            self.AI_chip = "o"
 
     """
         Play our AI model (trained with Q learning)
@@ -171,10 +174,10 @@ class TicTacToeBoard(tk.Frame):
             
     def winner(self, draw=False):
         if not draw:
-            message = f"Player '{self.game.player}' has won the game!\n¿You want to restart the game?"
+            message = f"Player '{self.game.player}' wins!\nReady for another round?"
         else:
-            message = f"Intense Game Ends in a Draw!\nReady for Round Two?"
-        x = messagebox.askyesno(message=message, title="Advertisement")
+            message = f"Draw!\nReady for another round?"
+        x = messagebox.askyesno(message=message, title="End Game!")
         if x:
             self.reset_game()
         else:
