@@ -2,7 +2,7 @@ import numpy as np
 from pickle_files import load
 
 
-class Perfect_Model:
+class Minimax_Model:
 
     def __init__(self):
         self.rules = load("Minimax/models/rules.pkl")

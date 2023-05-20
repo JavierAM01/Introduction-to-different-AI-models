@@ -40,8 +40,10 @@ class ANN_Model(nn.Module):
         return F.softmax(x, dim=1)
 
     def move(self, game, only_action=False):
-        x = T.tensor(game.board.reshape((1,9)), dtype=T.float32)
+        x = T.tensor(game.board.reshape((1,9)), dtype=T.float32).to(device)
         y = self.forward(x)[0]
+        map = T.tensor([(1 if game.valid(a) else -1) for a in range(9)]).to(device)
+        y = y*map
         a = int(T.argmax(y))
         if only_action:
             return a
@@ -53,7 +55,7 @@ class ANN_trainner:
     def __init__(self, model, lr=0.001):
 
         self.model = model
-        self.rules = load("ANN/models/rules.pkl")
+        self.rules = load("Minimax/models/rules.pkl")
         self.n = len(self.rules)  # 5920  -> a bit less than 6064 because we avoid the full boards
 
         # optimizer & loss

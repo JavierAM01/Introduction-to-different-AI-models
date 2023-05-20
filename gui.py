@@ -6,7 +6,7 @@ from game import Game
 from RL.model import RL_Model
 from MCTS.model import MCTS_Model
 from ANN.model import ANN_Model
-from Perfect.model import Perfect_Model
+from Minimax.model import Minimax_Model
 
 
 class App(tk.Tk):
@@ -23,18 +23,18 @@ class App(tk.Tk):
     def chose_type_of_game(self):
         
         print("\nChose a model:")
-        print(" 1) RL Model")
+        print(" 1) Minimax Model")
         print(" 2) ANN Model")
-        print(" 3) Perfect Model")
+        print(" 3) RL Model")
         print(" 4) MCTS Model (Not developed yet)")
         option = input(" > ")
 
         if option == "1":
-            model  = RL_Model()
+            model  = Minimax_Model()
         elif option == "2":
             model  = ANN_Model("ANN/models/model_lr01_x20k_epochs100.pkl")
         elif option == "3":
-            model  = Perfect_Model()
+            model  = RL_Model()
         else:
             model  = MCTS_Model()
 
