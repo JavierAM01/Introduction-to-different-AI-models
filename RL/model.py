@@ -42,7 +42,8 @@ class RL_Model: # Q-Learning
         a = self.chose_best_action(game.board)
         if only_action:
             return a
-        game.insert(a)
+        else:
+            game.insert(a)
 
 
 #######################################################################################################################
