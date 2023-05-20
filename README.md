@@ -1,5 +1,7 @@
 # Introducción a diferentes modelos de IA
 
+<img src="images/fondo_2.png" width="30%" align="right" />
+
 En este repositorio comparamos 3 tipos de algoritmos: 
 
  1) Algoritmo Minimax
