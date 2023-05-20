@@ -13,6 +13,8 @@ He creado un [PDF]() en el que explico una introducción de cada una de las 3 ra
 
 Para visualizar resultados, creamos un modelo de cada tipo y los entrenamos para jugar al 3 en raya. Aquí proporciono un pequeña introducción a cada uno de los algoritmos y después explico el código que he desarrollado para cada uno, por lo que si ya se tiene una noción básica del algoritmo se puede pasar directamente a esta segunda parte.
 
+Para poder unificar todos estos modelos hemos creado una clase para cada uno con la función **move()** con el fin de que tengan todos la misma estructura. Así el usuario únicamente tienen que elegir contra qué modelo jugar y seguidamente se comenzará la partida.
+
 #### Librerías necesarias
 
  - numpy: para fórmulas matemáticas y números aleatorios.
@@ -57,7 +59,7 @@ El entrenamiento implica ajustar los pesos y sesgos del perceptrón utilizando e
 
 ### Explicación del código <a name=id2.1></a>
 
-*Observación: El código está desarrollado en la carpeta **ANN/** (Artificial Neural Network). Para el entrenamiento hemos usado el objeto **ANN_trainner** del script **model.py**. Finalmente, guardaremos el modelo resultante (la red neuronal) en la carpeta models (concretamente con la librería de pytorch) y para poder jugar usaremos el objeto **ANN_Model** y moveremos con la función propia, **move**.*
+*Observación: El código está desarrollado en la carpeta **ANN/** (Artificial Neural Network). Para el entrenamiento hemos usado el objeto **ANN_trainner** del script **model.py**. Finalmente, guardaremos el modelo resultante (la red neuronal) en la carpeta models (concretamente con la librería de pytorch) y para poder jugar usaremos el objeto **ANN_Model**.
 
 Para su entrenamiento, esta rebirá como entrada un vector de longitud 9 (las casillas del juego) mapeadas de la siguiente manera:
 
@@ -77,7 +79,7 @@ El algoritmo Q-learning es una técnica destacada en este campo. Busca aprender 
 
 ### Explicación del código <a name=id3.1></a>
 
-*Observación: El código está desarrollado en la carpeta **RL/** (Reinforcement Learning). Para el entrenamiento hemos usado el objeto **Q_trainner** del script **model.py**. Finalmente, guardaremos el modelo resultante (la tabla Q-table) en la carpeta models (concretamente con la librería pickle) y para poder jugar usaremos el objeto **RL_Model** y moveremos con la función propia, **move**.*
+*Observación: El código está desarrollado en la carpeta **RL/** (Reinforcement Learning). Para el entrenamiento hemos usado el objeto **Q_trainner** del script **model.py**. Finalmente, guardaremos el modelo resultante (la tabla Q-table) en la carpeta models (concretamente con la librería pickle) y para poder jugar usaremos el objeto **RL_Model**.
 
 Primero creamos la Q-table vacía, es decir, para cada una de las posibles combinaciones del juego, creamos una fila de 9 elemento en los que iremos modificando para conseguir el mejor movimiento en cada jugada. 
 
@@ -97,7 +99,8 @@ Tras una serie de iteraciones obtenemos buenos resultados. Podemos ver la evoluc
 
 <img src="RL/models/q_100k_e1.png" width="400"/>
 
-El modelo final en la práctica, pese a no realizar los movimientos óptimos siempre, evita perder en todas la ocasiones y además si no se efectuan los movientos correctos, también es capaz de ganar al oponente. Aquí podemos ver un par de ejemplos:
+El modelo final en la práctica, pese a no realizar los movimientos óptimos siempre, evita perder en todas la ocasiones y además si no se efectuan los movientos correctos, también es capaz de ganar al oponente. Podemos observar los resultados con unos ejemplos:
+
 
 | Jugada | Explicación |
 |--------|-------------|
@@ -116,5 +119,16 @@ Durante la selección, se eligen nodos para la exploración y expansión, seguid
 
 ### Explicación del código <a name=id4.1></a>
 
+*Observación: El código está desarrollado en la carpeta **MCTS/** (Monte Carlo Tree Search). Para el entrenamiento hemos usado el objeto **MCTS_Model** del script **model.py**, aunque este se entrena directamente al crearse (el entrenamiento es muy corto, de unos pocos segundos). Finalmente, para poder jugar usaremos el objeto **MCTS_Model**.
 
+Con respecto al poco entrenamiento necesario para este modelo, he de mencionar que en cada movimiento volvemos a realizar una pequeña busqueda (de segundos, pues se realiza en vivo mientras se juega). El hecho es que este modelo realmente es una modificación mejorada del minimax. Fue creado para espacios de busqueda de grandes dimensiones en los que no es viable realizar una busqueda completa con minimax. 
+
+El beneficio del MCTS, es que debido al historial que guarda en cada uno de los nodos, es capaz de recordar que jugadas son mejores y por ello realizar una busqueda más inteligente. Aunque respecto a esto último existe el dilema exploración-expansión que explico más detalladamente en el [PDF](). Por lo tanto para el un juego como el tres en raya, con un espacio pequeño, no es necesario un modelo tan complejo. Pero me parece un gran ejemplo para comprender su funcionamiento.
+
+Podemos observar los resultados con unos ejemplos:
+
+| Jugada | Explicación |
+|--------|-------------|
+| <img src="images/MCTS/draw.gif" width="200" height="220"/> | **Empate:** la IA es el jugador "X". Podemos observar como siempre evita que el oponente gane. |
+| <img src="images/MCTS/winner.gif" width="200" height="220"/> | **Gana la IA:** la IA es el jugador "X". Podemos observar como la IA le deja sin movimientos al oponente y consigue ganarle. De hecho si se fijan detalladamente en la jugada, desde que el contrincante realiza su primer movimiento, el modelo le atrapa en una secuencia de movimiento en los que terminan con un 100% de victoria para la IA. |
 
