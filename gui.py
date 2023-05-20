@@ -13,7 +13,7 @@ class App(tk.Tk):
 
     def __init__(self):
         super().__init__()
-        self.title("Tic-Tac-Toe Game")
+        self.title("Tic-Tac-Toe Game. By Javier Abollado.")
         self.f1 = TicTacToeBoard(self)
         self.f1.pack()
         # self.f2 = TicTacToeBoard(self)
@@ -32,6 +32,10 @@ class TicTacToeBoard(tk.Frame):
 
         # create a parallel board & load the AI model
         self.game = Game()
+        self.chose_type_of_game()
+
+    def chose_type_of_game(self):
+        
         print("Chose a model:")
         print(" 1) RL Model")
         print(" 2) ANN Model")
@@ -39,6 +43,7 @@ class TicTacToeBoard(tk.Frame):
         print(" 4) MCTS Model (Not developed yet)")
         option = input(" > ")
         print(option)
+
         if option == "1":
             self.model  = RL_Model()
         elif option == "2":
@@ -47,8 +52,20 @@ class TicTacToeBoard(tk.Frame):
             self.model  = Perfect_Model()
         else:
             self.model  = MCTS_Model()
-        # self.model2 = Perfect_Model()
-        self.AI_chip = "o"
+
+        print("Start player?")
+        print(" 1) AI Player")
+        print(" 2) Human")
+        option = input(" > ")
+        print(option)
+
+        if option == "1":
+            self.start_player = "AI"
+            self.AI_chip = "x"
+            self.playAI()
+        else:
+            self.start_player = "Human"
+            self.AI_chip = "o"
 
     """
         Play our AI model (trained with Q learning)
@@ -144,6 +161,8 @@ class TicTacToeBoard(tk.Frame):
             for j in range(3):
                 self._cells[(i,j)].config(text="", fg="black")
         self.game.reset()
+        if self.start_player == "AI":
+            self.playAI()
 
     """ 
         1) Check if someone wins : ROWS / COLUMNS / DIAGONALS 
@@ -154,7 +173,7 @@ class TicTacToeBoard(tk.Frame):
         if not draw:
             message = f"Player '{self.game.player}' has won the game!\n¿You want to restart the game?"
         else:
-            message = f"Draw! Both players win!\n¿You want to restart the game?"
+            message = f"Intense Game Ends in a Draw!\nReady for Round Two?"
         x = messagebox.askyesno(message=message, title="Advertisement")
         if x:
             self.reset_game()
@@ -176,12 +195,3 @@ class TicTacToeBoard(tk.Frame):
     def draw_diag2(self):
         for k in range(3):
             self._cells[(k,2-k)].config(fg="green")
-
-
-def main():
-    """Create the game's board and run its main loop."""
-    app = App()
-    app.mainloop()
-
-if __name__ == "__main__":
-    main()
