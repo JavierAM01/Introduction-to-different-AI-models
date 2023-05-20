@@ -49,6 +49,8 @@ El entrenamiento implica ajustar los pesos y sesgos del perceptrón utilizando e
 
 ### Explicación del código <a name=id2.1></a>
 
+*Observación: El código está desarrollado en la carpeta **ANN/** (Artificial Neural Network). Para el entrenamiento hemos usado el objeto **ANN_trainner** del script **model.py**. Finalmente, guardaremos el modelo resultante (la red neuronal) en la carpeta models (concretamente con la librería de pytorch) y para poder jugar usaremos el objeto **ANN_Model** y moveremos con la función propia, **move**.*
+
 Para su entrenamiento, esta rebirá como entrada un vector de longitud 9 (las casillas del juego) mapeadas de la siguiente manera:
 
  - 1 si está la ficha "x".
@@ -66,6 +68,29 @@ El Aprendizaje por Reforzamiento es un enfoque de la inteligencia artificial don
 El algoritmo Q-learning es una técnica destacada en este campo. Busca aprender una función de valor óptimo llamada Q-función, que asigna valores a pares de estado-acción y representa la utilidad esperada a largo plazo. Mediante la exploración y explotación, el agente actualiza iterativamente los valores de la Q-función utilizando la regla de actualización de Q. Una vez que la Q-función ha convergido a su valor óptimo, el agente puede tomar decisiones óptimas eligiendo la acción con el mayor valor Q en cada estado.
 
 ### Explicación del código <a name=id3.1></a>
+
+*Observación: El código está desarrollado en la carpeta **RL/** (Reinforcement Learning). Para el entrenamiento hemos usado el objeto **Q_trainner** del script **model.py**. Finalmente, guardaremos el modelo resultante (la tabla Q-table) en la carpeta models (concretamente con la librería pickle) y para poder jugar usaremos el objeto **RL_Model** y moveremos con la función propia, **move**.*
+
+Primero creamos la Q-table vacía, es decir, para cada una de las posibles combinaciones del juego, creamos una fila de 9 elemento en los que iremos modificando para conseguir el mejor movimiento en cada jugada. 
+
+La única información que tiene el juego es el siguiente movimiento, es decir, si en el siguiente movimiento:
+
+ - Ganamos: ```q_next = 1```
+ - Perdemos: ```q_next = -1```
+ - Empatamos: ```q_next = 0```
+
+Un vez tenemos dicha información, podemos empezar a simular partidas de prueba para completar la tabla lo mejor posible. Para este último paso utilizamos la función **updateQtable()** del objeto **Q_trainner**. Si no terminamos justo en el siguiente movimiento entonces tendremos que que actualizar el valor con el siguiente mejor Q posible, ```q_next = self.chose_best_action(next_game.board, q=True)```. Finalmente actualizamos la tabla de la siguiente forma: 
+
+```python
+q_new = (1 - self.alpha) * q0 + self.alpha * (reward + q_next)
+```
+
+Tras una serie de iteraciones obtenemos buenos resultados. Podemos ver la evolución del entrenamiento en el siguiente gráfico:
+
+<img src="RL/models/q_100k_e1.png" width="400"/>
+
+El modelo final en la práctica, pese a no realizar los movimientos óptimos siempre, evita perder en todas la ocasiones y además si no se efectuan los movientos correctos, también es capaz de ganar al oponente. Aquí podemos ver un par de ejemplos:
+
 
 ## Árboles de Búsqueda de Monte Carlo <a name=id4></a>
 
