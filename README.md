@@ -1,6 +1,6 @@
 # Introducción a diferentes modelos de IA
 
-<img src="images/fondo_2.png" width="30%" align="right" />
+<img src="images/fondo_2.png" width="40%" align="right" />
 
 En este repositorio comparamos 4 tipos de algoritmos: 
 
