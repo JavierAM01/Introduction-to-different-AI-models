@@ -10,10 +10,7 @@ NUM_ACTIONS = 9
 NUM_SIMULATIONS = 200
 NUM_SIMULATIONS_3 = 200
 C_PUCT = 1.0
-eps = 0.25   # 0 to play match games, 0.25 to train
-PROF = 9     # 0 to play match games, 9 to train
-eps_erase = 0.25
-PROF_erase = 9
+
 
 DIR_ALPHA = 1.5
 
@@ -25,9 +22,12 @@ class MCTS:
         
     def __init__(self, game):
         available = game.available_moves()
-        p = 1.0 / len(available)
+        if len(available) == 0:
+            p = 0
+        else:
+            p = 1.0 / len(available)
         #dirich = np.random.dirichlet([DIR_ALPHA for _ in range(NUM_ACTIONS)], 1)[0]
-        probs = [p if i in available else 0 for i in range(9)]
+        probs = [(p if i in available else 0) for i in range(9)]
         self.edges = [Edge(p) for p in probs]
         self.board = copy.deepcopy(game.board)
         self.player = game.player
@@ -45,24 +45,32 @@ class MCTS:
         Make one simulation: we go throught all the nodes making decisions, until we reached a leaf node. 
         Then we update de edges knowing the new information.
     """
-    def simulation(self):
+    def simulation(self, trainning=False):
         
         current_node = self
         current_game = self.create_game()
+
+        eps = 0 if not trainning else 0.25
 
         actions = []        
         
         while True:
 
-            # Find next action: a = argmax{Q(a) + U(a)} 
-            Q = map(lambda edge: edge.q, current_node.edges)
-            sqrt_sum = math.sqrt(sum(map(lambda edge: edge.n, current_node.edges)))
-            U = [(C_PUCT * edge.p * sqrt_sum / (1 + edge.n)) for edge in current_node.edges]
-            
-            # Avoid unavailable actions 
             possible_actions = current_game.available_moves()
-            confidence = [(q+u if i in possible_actions else -np.inf) for i,(q,u) in enumerate(zip(Q,U))]
-            action_taken = np.argmax(confidence)
+
+            if np.random.random() > eps:   
+                # Find next action: a = argmax{Q(a) + U(a)} 
+                Q = map(lambda edge: edge.q, current_node.edges)
+                sqrt_sum = math.sqrt(sum(map(lambda edge: edge.n, current_node.edges)))
+                U = [(C_PUCT * edge.p * sqrt_sum / (1 + edge.n)) for edge in current_node.edges]
+            
+                # Avoid unavailable actions 
+                confidence = [(q+u if i in possible_actions else -np.inf) for i,(q,u) in enumerate(zip(Q,U))]
+                action_taken = np.argmax(confidence)
+            
+            else:
+                action_taken = np.random.choice(possible_actions)
+
             actions.append(action_taken)
             
             # Update the current game
@@ -112,12 +120,10 @@ class MCTS:
     """
         Make a move: first we make some simulations (even though we have already trained the model) and then we select the best action.
     """
-    def makeMove(self, game, n_games=15):
+    def move(self, game, n_games=15):
 
         # Run simulations to populate our MCTS
-        for i in range(NUM_SIMULATIONS):
-            if i % 100 == 0:
-                print(i)
+        for _ in range(NUM_SIMULATIONS):
             self.simulation()
 
         # # Uncomment to see the number of simulations made per action

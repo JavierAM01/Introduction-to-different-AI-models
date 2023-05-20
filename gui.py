@@ -29,6 +29,7 @@ class App(tk.Tk):
         print(" 4) MCTS Model (Not developed yet)")
         option = input(" > ")
 
+        mcts = False
         if option == "1":
             model  = Minimax_Model()
         elif option == "2":
@@ -37,6 +38,7 @@ class App(tk.Tk):
             model  = RL_Model()
         else:
             model  = MCTS_Model()
+            mcts = True
 
         print("\nStart player?")
         print(" 1) AI Player")
@@ -50,14 +52,14 @@ class App(tk.Tk):
             start_player = "Human"
             AI_chip = "o"
 
-        return model, start_player, AI_chip
+        return model, start_player, AI_chip, mcts
 
 class TicTacToeBoard(tk.Frame):
 
     def __init__(self, master, info):
         super().__init__(master=master)
 
-        self.model, self.start_player, self.AI_chip = info
+        self.model, self.start_player, self.AI_chip, self.is_mcts = info
 
         # init variables and create frames
         self._cells = {}
@@ -94,7 +96,11 @@ class TicTacToeBoard(tk.Frame):
         button = self._cells[(row,col)]
         if button["text"] == "": # and not self.win:
             button.config(text=self.game.player)
-            self.game.insert(3*row+col)
+            action = 3*row+col
+            # update the mcts in case
+            if not self.game.player == self.AI_chip and self.is_mcts and self.game.empty_spaces > 1:
+                self.model.move_direct(action)
+            self.game.insert(action)
             # check winner 
             finished = self.game.finished(type=True)
             if finished != -1:
@@ -112,7 +118,7 @@ class TicTacToeBoard(tk.Frame):
             else:
                 # change turn after move
                 self.display.config(text=f"Turn : {self.game.player}")
-                if self.game.player == self.AI_chip:
+                if self.game.player == self.AI_chip and self.game.empty_spaces > 0:
                     self.playAI()
 
     """ 
@@ -164,6 +170,8 @@ class TicTacToeBoard(tk.Frame):
             for j in range(3):
                 self._cells[(i,j)].config(text="", fg="black")
         self.game.reset()
+        if self.is_mcts:
+            self.model.reset()
         if self.start_player == "AI":
             self.playAI()
 
@@ -173,11 +181,13 @@ class TicTacToeBoard(tk.Frame):
     """
             
     def winner(self, draw=False):
+        self.game.change_player()
         if not draw:
             message = f"Player '{self.game.player}' wins!\nReady for another round?"
         else:
             message = f"Draw!\nReady for another round?"
         x = messagebox.askyesno(message=message, title="End Game!")
+        self.game.change_player()
         if x:
             self.reset_game()
         else:

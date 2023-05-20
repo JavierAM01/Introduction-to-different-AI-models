@@ -54,9 +54,9 @@ class Game(Game_Info):
         chip = self.get_chip()
         self.board[action // 3, action % 3] = chip
         self.empty_spaces -= 1
-        if not self.full() and not self.finished():
-            self.change_player()
+        self.change_player()
 
     def erase(self, action):
         self.board[action // 3, action % 3] = 0
         self.empty_spaces += 1
+        self.change_player()
