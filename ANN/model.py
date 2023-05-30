@@ -56,6 +56,7 @@ class ANN_trainner:
 
         self.model = model
         self.rules = load("Minimax/models/rules.pkl")
+        self.rules[tuple([0]*9)] = 4 # start in the center
         self.n = len(self.rules)  # 5920  -> a bit less than 6064 because we avoid the full boards
 
         # optimizer & loss
@@ -71,10 +72,17 @@ class ANN_trainner:
         Y = T.tensor([aux(self.rules[tuple(x)]) for x in _X], dtype=T.float32).to(device)
         X = T.tensor(_X, dtype=T.float32).to(device)
         return X, Y
+    
+    def load_data(self):
+        def aux(action):
+            return [(1 if a == action else 0) for a in range(9)]
+        X = T.tensor(list(self.rules.keys()), dtype=T.float32).to(device)
+        Y = T.tensor([aux(y) for y in self.rules.values()], dtype=T.float32).to(device)
+        return X, Y
         
-    def fit(self, length, batch_size, epochs, save_path=None):
+    def fit(self, epochs, batch_size, save_path=None):
 
-        X, Y = self.create_trainning_data(length)
+        X, Y = self.load_data() # self.create_trainning_data(length)
 
         n = len(X)
         losses = []

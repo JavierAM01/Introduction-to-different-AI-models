@@ -33,7 +33,7 @@ class App(tk.Tk):
         if option == "1":
             model  = Minimax_Model()
         elif option == "2":
-            model  = ANN_Model("ANN/models/model_lr01_x20k_epochs100.pkl")
+            model  = ANN_Model("ANN/models/model.pkl")#"ANN/models/model_lr01_x20k_epochs100.pkl")
         elif option == "3":
             model  = RL_Model()
         else:
