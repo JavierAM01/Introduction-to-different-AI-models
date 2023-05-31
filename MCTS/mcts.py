@@ -17,7 +17,6 @@ DIR_ALPHA = 1.5
 from MCTS.edge import Edge     
         
 
-# original to train the net, make a random rotation each step 
 class MCTS:
         
     def __init__(self, game):
@@ -50,7 +49,7 @@ class MCTS:
         current_node = self
         current_game = self.create_game()
 
-        eps = 0 if not trainning else 0.25
+        eps = 0 if not trainning else 0.5
 
         actions = []        
         
@@ -120,7 +119,7 @@ class MCTS:
     """
         Make a move: first we make some simulations (even though we have already trained the model) and then we select the best action.
     """
-    def move(self, game, n_games=15):
+    def move(self, game, n_games=30):
 
         # Run simulations to populate our MCTS
         for _ in range(NUM_SIMULATIONS):

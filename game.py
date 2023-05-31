@@ -32,7 +32,7 @@ class Game(Game_Info):
     def full(self):
         return self.empty_spaces == 0
 
-    # 1) type = False: return is the game is finished or not
+    # 1) type = False: return if the game is finished or not
     # 2) type = True: return -1 is the game is not finished and {0,1,2,3} if it is (depending on the type)
     def finished(self, type=False):
         # check rows

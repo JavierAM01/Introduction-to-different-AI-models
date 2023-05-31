@@ -12,7 +12,7 @@ class MCTS_Model:
 
         # make a serious number of simulations to train the model, once its trained we can use it
         print("Trainning model... Please wait ;)")
-        for i in range(10000): # 362880 = 9!, which represents the  Nº of posibles leafs in the tree -> in order to check most of them
+        for _ in range(10000): # 362880 = 9!, which represents the  Nº of posibles leafs in the tree -> in order to check most of them
             self.mcts.simulation(trainning=True)
 
     def move(self, game, only_action=False):
