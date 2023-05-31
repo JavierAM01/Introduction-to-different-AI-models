@@ -13,10 +13,10 @@ He creado un [PDF]() en el que explico una introducción a 3 de las ramas mencio
 
 ### Ejecución
 
-Para poder unificar todos estos modelos hemos creado una clase para cada uno con la función **move()** con el fin de que tengan todos la misma estructura. Así el usuario únicamente tienen que elegir contra qué modelo jugar y seguidamente se comenzará la partida. Para comenzar ejecutar:
+Para poder unificar todos estos modelos hemos creado una clase para cada uno con la función **move()** con el fin de que tengan todos la misma estructura. Así el usuario únicamente tienen que elegir contra qué modelo jugar y seguidamente se comenzará la partida. Para comenzar ejecutar el script:
 
 ```python
-python3 main.py
+main.py
 ```
 
 #### Librerías necesarias
@@ -32,14 +32,17 @@ Aquí proporciono un pequeña introducción a cada uno de los algoritmos y despu
  1. [Algoritmo Minimax](#id1)
     - [Explicación del código](#id1.1)
 
- 2. [Redes neuronales](#id2)
-    - [Explicación del código](#id2.1)
-
- 3. [Aprendizaje por refuerzo](#id3)
+ 2. [Aprendizaje por refuerzo](#id3)
     - [Explicación del código](#id3.1)
+    - [Resultados](#id3.2)
 
- 4. [Árboles de Búsqueda de Monte Carlo](#id4)
+ 3. [Árboles de Búsqueda de Monte Carlo](#id4)
     - [Explicación del código](#id4.1) 
+    - [Resultados](#id4.2)
+
+ 4. [Redes neuronales](#id2)
+    - [Explicación del código](#id2.1)
+    - [Resultados](#id2.2)
 
 ## Minimax <a name=id1></a>
 
@@ -78,27 +81,7 @@ Finalmente, la función selecciona la mejor jugada basándose en los resultados 
         i_max = i
 ```
 
-## Redes neuronales <a name=id2></a>
 
-<img src="images/ann.png" width="500" align="right" />
-
-Las redes neuronales tipo perceptrón son un enfoque fundamental en el aprendizaje automático y la inteligencia artificial. En el contexto del juego del tres en raya, se pueden utilizar para automatizar el juego y tomar decisiones estratégicas.
-
-El perceptrón es la unidad básica de una red neuronal, que combina entradas ponderadas y aplica una función de activación para generar una salida. En este caso, las entradas representan el estado actual del tablero y las salidas indican la mejor jugada posible.
-
-El entrenamiento implica ajustar los pesos y sesgos del perceptrón utilizando ejemplos de entrada y salida esperada. El objetivo es desarrollar una red neuronal entrenada que juegue al tres en raya de manera competente, mejorando la experiencia de juego y explorando conceptos en el aprendizaje automático.
-
-### Explicación del código <a name=id2.1></a>
-
-*Observación: El código está desarrollado en la carpeta **ANN/** (Artificial Neural Network). Para el entrenamiento hemos usado el objeto **ANN_trainner** del script **model.py**. Finalmente, guardaremos el modelo resultante (la red neuronal) en la carpeta models (concretamente con la librería de pytorch) y para poder jugar usaremos el objeto **ANN_Model**.*
-
-Para su entrenamiento, esta rebirá como entrada un vector de longitud 9 (las casillas del juego) mapeadas de la siguiente manera:
-
- - 1 si está la ficha "x".
- - -1 si está la ficha "o".
- - 0 si está la casilla vacía.
-
-y para la salida proporcionaremos un vector (de longitud 9) que indique la probabilidad de realizar cada una de las acciones, gracias a la función [softmax](https://es.wikipedia.org/wiki/Funci%C3%B3n_SoftMax).
 
 ## Aprendizaje por refuerzo <a name=id3></a>
 
@@ -130,6 +113,9 @@ Tras una serie de iteraciones obtenemos buenos resultados. Podemos ver la evoluc
 
 <img src="RL/models/q_100k_e1.png" width="400"/>
 
+
+### Resultados <a name=id3.2></a>
+
 El modelo final en la práctica, pese a no realizar los movimientos óptimos siempre, evita perder en todas la ocasiones y además si no se efectuan los movientos correctos, también es capaz de ganar al oponente. Podemos observar los resultados con unos ejemplos:
 
 
@@ -137,6 +123,11 @@ El modelo final en la práctica, pese a no realizar los movimientos óptimos sie
 |--------|-------------|
 | <img src="images/RL/draw.gif" width="200" height="220"/> | **Empate:** la IA es el jugador "O". Podemos observar como siempre evita que el "X" gane. |
 | <img src="images/RL/winner.gif" width="200" height="220"/> | **Gana la IA:** la IA es el jugador "X". Podemos observar como la IA le deja sin movimientos al oponente y consigue ganarle. |
+
+En general, podemos ver como contra un oponente con movimientos aleatorios siempre gana, mientras que contra uno que sabe jugar siempre llegan al empate.
+
+<img src="images/scores/rl.png" height="500" width="750"/>
+
 
 
 
@@ -156,10 +147,47 @@ Con respecto al poco entrenamiento necesario para este modelo, he de mencionar q
 
 El beneficio del MCTS, es que debido al historial que guarda en cada uno de los nodos, es capaz de recordar que jugadas son mejores y por ello realizar una busqueda más inteligente. Aunque respecto a esto último existe el dilema exploración-expansión que explico más detalladamente en el [PDF](). Por lo tanto para el un juego como el tres en raya, con un espacio pequeño, no es necesario un modelo tan complejo. Pero me parece un gran ejemplo para comprender su funcionamiento.
 
+### Resultados <a name=id4.2></a>
+
 Podemos observar los resultados con unos ejemplos:
 
 | Jugada | Comentarios |
 |--------|-------------|
 | <img src="images/MCTS/draw.gif" width="200" height="220"/> | **Empate:** la IA es el jugador "X". Podemos observar como siempre evita que el oponente gane. |
 | <img src="images/MCTS/winner.gif" width="200" height="220"/> | **Gana la IA:** la IA es el jugador "X". Podemos observar como la IA le deja sin movimientos al oponente y consigue ganarle. De hecho si se fijan detalladamente en la jugada, desde que el contrincante realiza su primer movimiento, el modelo le atrapa en una secuencia de movimiento en los que terminan con un 100% de victoria para la IA. |
+
+En general, podemos observar como, al igual que en el aprendizaje por refuerzo, contra un oponente con movimientos aleatorios siempre gana, mientras que contra uno que sabe jugar siempre llegan al empate.
+
+<img src="images/scores/mcts.png" height="500" width="750"/>
+
+
+
+## Redes neuronales <a name=id2></a>
+
+<img src="images/ann.png" width="500" align="right" />
+
+Las redes neuronales tipo perceptrón son un enfoque fundamental en el aprendizaje automático y la inteligencia artificial. En el contexto del juego del tres en raya, se pueden utilizar para automatizar el juego y tomar decisiones estratégicas.
+
+El perceptrón es la unidad básica de una red neuronal, que combina entradas ponderadas y aplica una función de activación para generar una salida. En este caso, las entradas representan el estado actual del tablero y las salidas indican la mejor jugada posible.
+
+El entrenamiento implica ajustar los pesos y sesgos del perceptrón utilizando ejemplos de entrada y salida esperada. El objetivo es desarrollar una red neuronal entrenada que juegue al tres en raya de manera competente, mejorando la experiencia de juego y explorando conceptos en el aprendizaje automático.
+
+### Explicación del código <a name=id2.1></a>
+
+*Observación: El código está desarrollado en la carpeta **ANN/** (Artificial Neural Network). Para el entrenamiento hemos usado el objeto **ANN_trainner** del script **model.py**. Finalmente, guardaremos el modelo resultante (la red neuronal) en la carpeta models (concretamente con la librería de pytorch) y para poder jugar usaremos el objeto **ANN_Model**.*
+
+Para su entrenamiento, esta rebirá como entrada un vector de longitud 9 (las casillas del juego) mapeadas de la siguiente manera:
+
+ - 1 si está la ficha "x".
+ - -1 si está la ficha "o".
+ - 0 si está la casilla vacía.
+
+y para la salida proporcionaremos un vector (de longitud 9) que indique la probabilidad de realizar cada una de las acciones, gracias a la función softmax.
+
+### Resultados <a name=id2.2></a>
+
+Después del entrenamiento, se observan los peores resultados en comparación con los otros tres modelos. No obstante, es posible modificar la estructura de la red neuronal y experimentar con diferentes conjuntos de datos de entrenamiento. Sin embargo, he decidido mantener estos resultados para ilustrar cómo la red neuronal aprende a partir de cada par de elementos de entrada y salida deseados. Es importante destacar que la red neuronal valora de manera similar tanto los movimientos intermedios como el último movimiento que lleva a una victoria o derrota en el juego, a diferencia de enfoques como el árbol de búsqueda y el aprendizaje por refuerzo, donde se refuerza de manera más significativa el último paso. Debido a que la red neuronal no ha completado su entrenamiento de manera óptima, no ha logrado aprender algunas funciones básicas clave, como bloquear al oponente cuando está a punto de ganar o colocar una ficha en la posición correcta para que la IA gane, lo que explica los resultados deficientes obtenidos.
+
+<img src="images/scores/ann.png" height="500" width="750"/>
+
 
